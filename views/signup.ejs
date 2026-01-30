@@ -1,0 +1,60 @@
+<!-- views/signup.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Sign Up</title>
+</head>
+
+<body>
+
+    <div class="signup-container">
+        <h1>Create Your Account</h1>
+
+        <% if (errors && errors.length> 0) { %>
+            <div class="errors">
+                <ul>
+                    <% errors.forEach(error=> { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+            </div>
+            <% } %>
+
+                <form action="/signup" method="POST">
+                    <div>
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" placeholder="Enter username"
+                            value="<%= data.username ? data.username : '' %>" required>
+                    </div>
+
+                    <div>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" placeholder="Enter email"
+                            value="<%= data.email ? data.email : '' %>" required>
+                    </div>
+
+                    <div>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter password" required>
+                    </div>
+
+                    <div>
+                        <label for="confirmPassword">Confirm Password:</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword"
+                            placeholder="Confirm password" required>
+                    </div>
+
+                    <button type="submit">Sign Up</button>
+                </form>
+
+                <p>Already have an account? <a href="/">Log in here</a></p>
+    </div>
+
+</body>
+
+</html>

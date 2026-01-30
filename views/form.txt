@@ -1,0 +1,23 @@
+<%# if (errors.length> 0) { %>
+    <ul>
+        <%# errors.forEach(err=> { %>
+            <li>
+                <%= err.msg %>
+            </li>
+            <%# }) %>
+    </ul>
+    <%# } %>
+
+
+        <form action="/users/new" method="POST">
+            <input type="email" name="email" placeholder="Email" value="<%= data.email || '' %>" />
+
+            <input type="password" name="password" placeholder="Password" />
+
+            <button type="submit">Create User</button>
+        </form>
+
+        <p>
+            Don’t have an account?
+            <a href="/signup">Sign up</a>
+        </p>
