@@ -1,7 +1,14 @@
 //controllers/userController.js
-const User = require("../models/user");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
+const passport = require("passport");
+const User = require("../models/user");
+
+let messages = [
+  { name: "Alice", message: "Hello everyone! This is my first message." },
+  { name: "Bob", message: "Hi Alice! Welcome to the message board." },
+  { name: "Charlie", message: "I love this simple Node.js board. 😄" },
+];
 
 // Render login page
 exports.loginPage = (req, res) => {
@@ -24,6 +31,14 @@ exports.signUp = (req, res) => {
 exports.accountCreated = (req, res) => {
   res.render("account-created", {
     title: "account created",
+    errors: [],
+    data: {},
+  });
+};
+
+exports.dashboard = (req, res) => {
+  res.render("dashboard", {
+    title: "dashboard",
     errors: [],
     data: {},
   });
@@ -62,7 +77,7 @@ exports.createUser = async (req, res) => {
 
   try {
     // 1️⃣ Check if user exists
-    const existingUser = await User.findByEmail(email);
+    const existingUser = await User.findByUsernameOrEmail(email);
 
     if (existingUser) {
       return res.render("signup", {
@@ -88,4 +103,16 @@ exports.createUser = async (req, res) => {
     console.error(err);
     res.status(500).send("Server error");
   }
+};
+
+exports.postLogin = passport.authenticate("local", {
+  successRedirect: "/dashboard",
+  failureRedirect: "/login",
+});
+
+exports.logout = (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+    res.redirect("/login");
+  });
 };

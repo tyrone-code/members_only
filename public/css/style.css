@@ -146,3 +146,99 @@ body {
   font-size: 13px;
   color: #777;
 }
+
+/* Message Board Page Styles */
+.mb-wrapper {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #fcf3d8, #e7eff7);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mb-card {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 500px;
+}
+
+/* Headings */
+.mb-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.mb-subtitle {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 18px;
+}
+
+/* Form layout */
+.mb-form-group {
+  margin-bottom: 15px;
+}
+
+/* Labels */
+.mb-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  font-size: 14px;
+}
+
+/* Inputs */
+.mb-input,
+.mb-textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.mb-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Button */
+.mb-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #2575fc;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.mb-button:hover {
+  background-color: #1a5ed8;
+}
+
+/* Messages */
+.mb-message {
+  background-color: #f7f9fc;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 10px;
+  border-left: 4px solid #2575fc;
+}
+
+.mb-message-author {
+  font-weight: bold;
+  color: #333;
+}
+
+.mb-message-text {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
