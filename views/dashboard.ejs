@@ -8,13 +8,11 @@
 <body>
     <div class="mb-wrapper">
         <div class="mb-card">
-            <h1 class="mb-title">Welcome to your dashboard</h1>
+            <h1 class="mb-title">Welcome <%= user.username %> 👋
+            </h1>
 
             <form action="/message" method="POST">
                 <div class="mb-form-group">
-                    <label class="mb-label" for="name">Name</label>
-                    <h1 class="mb-label">Hello <%= user.username %> 👋</h1>
-                    <input class="mb-input" type="text" id="name" name="name" placeholder="Your name" required>
                 </div>
 
                 <div class="mb-form-group">
@@ -29,10 +27,26 @@
             <h2 class="mb-subtitle">Messages</h2>
 
             <!-- Example message -->
-            <div class="mb-message">
-                <div class="mb-message-author">Alice</div>
-                <div class="mb-message-text">Hello world 👋</div>
-            </div>
+
+            <% if (!messages || messages.length===0) { %>
+                <p>No messages yet. Be the first to post! 👏</p>
+                <% } else { %>
+                    <% messages.forEach(msg=> { %>
+                        <div class="mb-message">
+                            <div class="mb-message-author">
+                                <%= msg.username %>
+                                    <div class="mb-message-date">
+                                        <%= new Date(msg.created_at).toLocaleString() %>
+                                    </div>
+
+                            </div>
+                            <div class="mb-message-text">
+                                <%= msg.content %>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% } %>
+
         </div>
     </div>
 

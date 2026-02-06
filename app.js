@@ -1,9 +1,3 @@
-/// LAST LEFT OFF WHERE A USER CANNOT TYPE /DASHBOARD IN THE SEARCH URl it redirects to login UNTIL THEY LOGIN
-/// WE NEED TO CREATE WHEN LOGGED INTO THE DASHBOARD HELLO <USERNAME>
-//2026/02/04
-
-// implement
-
 const express = require("express");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);

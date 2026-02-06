@@ -20,8 +20,6 @@ const User = {
     return result.rows[0];
   },
 
-  ///NB FINDBYLOGIN CHANGED BY FIND BY ID
-
   async findById(id) {
     const result = await pool.query(
       "SELECT id, username, email FROM signed_up WHERE id = $1",

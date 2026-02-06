@@ -4,6 +4,7 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const User = require("../models/user");
+const Message = require("../models/message");
 
 // Sample messages for the board
 let messages = [
@@ -34,13 +35,35 @@ exports.accountCreated = (req, res) => {
 };
 
 // Dashboard page (protected)
-exports.dashboard = (req, res) => {
-  res.render("dashboard", {
-    title: "Dashboard",
-    errors: [],
-    data: {},
-    user: req.user,
-  });
+
+exports.dashboard = async (req, res) => {
+  try {
+    const messages = await Message.getMessages(); // fetch from DB
+    res.render("dashboard", {
+      title: "Dashboard",
+      errors: [],
+      data: {},
+      user: req.user,
+      messages, // send messages to EJS
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
+exports.postMessage = async (req, res) => {
+  try {
+    const { message } = req.body;
+    console.log(message);
+    if (!message || message.trim() === "") return res.redirect("/dashboard");
+
+    await Message.createMessage(req.user.id, message.trim());
+    res.redirect("/dashboard");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
 };
 
 // ---------- Validation Middleware ----------

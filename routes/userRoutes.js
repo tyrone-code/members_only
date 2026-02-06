@@ -4,11 +4,6 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
 
-// 🔥 TEST ROUTE
-router.get("/test", (req, res) => {
-  res.send("Router works");
-});
-
 // ---------- Public Routes ----------
 
 // Home redirects to login
@@ -17,6 +12,7 @@ router.get("/", userController.loginPage);
 // Login
 router.get("/login", userController.loginPage);
 router.post("/login", userController.postLogin);
+router.post("/message", userController.postMessage);
 
 // Signup
 router.get("/signup", userController.signUp);
