@@ -14,7 +14,9 @@ passport.use(
         const user = await User.findByUsernameOrEmail(userInput, userInput);
 
         if (!user) {
-          return done(null, false, { message: "User not found" });
+          return done(null, false, {
+            message: "Invalid username or password",
+          });
         }
 
         const match = await bcrypt.compare(password, user.password);

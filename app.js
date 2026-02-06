@@ -1,3 +1,9 @@
+/// LAST LEFT OFF WHERE A USER CANNOT TYPE /DASHBOARD IN THE SEARCH URl it redirects to login UNTIL THEY LOGIN
+/// WE NEED TO CREATE WHEN LOGGED INTO THE DASHBOARD HELLO <USERNAME>
+//2026/02/04
+
+// implement
+
 const express = require("express");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
@@ -7,7 +13,7 @@ require("dotenv").config();
 
 const app = express();
 
-// ---------- View Engine ----------
+// ---------- View Engine ----------a
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
@@ -28,6 +34,15 @@ app.use(
     saveUninitialized: false,
   }),
 );
+// ---------- Flash (MUST be after session, before routes) ----------
+const flash = require("connect-flash");
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.error = req.flash("error");
+  res.locals.user = req.user; // 👈 useful later
+  next();
+});
 
 // ---------- Passport ----------
 app.use(passport.initialize());

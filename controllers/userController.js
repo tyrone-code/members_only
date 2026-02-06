@@ -1,50 +1,50 @@
-//controllers/userController.js
+// controllers/userController.js
+
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const User = require("../models/user");
 
+// Sample messages for the board
 let messages = [
   { name: "Alice", message: "Hello everyone! This is my first message." },
   { name: "Bob", message: "Hi Alice! Welcome to the message board." },
   { name: "Charlie", message: "I love this simple Node.js board. 😄" },
 ];
 
-// Render login page
+// ---------- Render Pages ----------
+
+// Login page
 exports.loginPage = (req, res) => {
-  res.render("login", {
-    title: "Welcome",
-    errors: [],
-    data: {},
-  });
+  res.render("login", { title: "Welcome", errors: [], data: {} });
 };
 
-// Render signup page
+// Signup page
 exports.signUp = (req, res) => {
-  res.render("signup", {
-    title: "Sign Up",
-    errors: [],
-    data: {},
-  });
+  res.render("signup", { title: "Sign Up", errors: [], data: {} });
 };
 
+// Account created page
 exports.accountCreated = (req, res) => {
   res.render("account-created", {
-    title: "account created",
+    title: "Account Created",
     errors: [],
     data: {},
   });
 };
 
+// Dashboard page (protected)
 exports.dashboard = (req, res) => {
   res.render("dashboard", {
-    title: "dashboard",
+    title: "Dashboard",
     errors: [],
     data: {},
+    user: req.user,
   });
 };
 
-// Validation middleware
+// ---------- Validation Middleware ----------
+
 exports.validateUser = [
   body("username").trim().notEmpty().withMessage("Username is required"),
   body("email").isEmail().withMessage("Invalid email").normalizeEmail(),
@@ -52,9 +52,7 @@ exports.validateUser = [
     .isLength({ min: 6 })
     .withMessage("Password must be at least 6 characters"),
   body("confirmPassword").custom((value, { req }) => {
-    if (value !== req.body.password) {
-      throw new Error("Passwords do not match");
-    }
+    if (value !== req.body.password) throw new Error("Passwords do not match");
     return true;
   }),
 
@@ -71,12 +69,13 @@ exports.validateUser = [
   },
 ];
 
+// ---------- User Actions ----------
+
 // Create new user
 exports.createUser = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    // 1️⃣ Check if user exists
     const existingUser = await User.findByUsernameOrEmail(email);
 
     if (existingUser) {
@@ -87,17 +86,10 @@ exports.createUser = async (req, res) => {
       });
     }
 
-    // 2️⃣ Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // 3️⃣ Create user
-    await User.create({
-      username,
-      email,
-      password: hashedPassword,
-    });
+    await User.create({ username, email, password: hashedPassword });
 
-    // 4️⃣ Redirect
     res.redirect("/account-created");
   } catch (err) {
     console.error(err);
@@ -105,14 +97,27 @@ exports.createUser = async (req, res) => {
   }
 };
 
-exports.postLogin = passport.authenticate("local", {
-  successRedirect: "/dashboard",
-  failureRedirect: "/login",
-});
+// Login (Passport local strategy)
 
+exports.postLogin = (req, res, next) => {
+  passport.authenticate("local", {
+    successRedirect: "/dashboard",
+    failureRedirect: "/login",
+    failureFlash: true,
+  })(req, res, next);
+};
+// Logout
 exports.logout = (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err);
     res.redirect("/login");
   });
+};
+
+// ---------- Authentication Middleware ----------
+
+// Protect routes
+exports.isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) return next(); // user logged in
+  res.redirect("/login"); // user not logged in → redirect
 };

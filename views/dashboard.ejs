@@ -2,18 +2,18 @@
 <html>
 
 <head>
-    <title>Simple Message Board</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
     <div class="mb-wrapper">
         <div class="mb-card">
-            <h1 class="mb-title">Message Board</h1>
+            <h1 class="mb-title">Welcome to your dashboard</h1>
 
             <form action="/message" method="POST">
                 <div class="mb-form-group">
                     <label class="mb-label" for="name">Name</label>
+                    <h1 class="mb-label">Hello <%= user.username %> 👋</h1>
                     <input class="mb-input" type="text" id="name" name="name" placeholder="Your name" required>
                 </div>
 
