@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
+const isAdmin = require("../middleware/isAdmin");
 
 // ---------- Public Routes ----------
 
@@ -12,9 +13,7 @@ router.get("/", userController.loginPage);
 // Login
 router.get("/login", userController.loginPage);
 router.post("/login", userController.postLogin);
-router.post("/message", userController.postMessage);
 
-// Signup
 router.get("/signup", userController.signUp);
 router.post("/signup", userController.validateUser, userController.createUser);
 
@@ -30,17 +29,11 @@ router.get(
   userController.dashboard,
 );
 
+router.post("/message", userController.postMessage);
+router.post("/message/:id/delete", isAdmin, userController.deleteMessage);
+// Signup
+
 // Logout
 router.get("/logout", userController.isAuthenticated, userController.logout);
-
-// ---------- Future / Message Routes ----------
-
-// router.post("/message", (req, res) => {
-//   const { name, message } = req.body;
-//   if (name && message) {
-//     messages.push({ name, message });
-//   }
-//   res.redirect("/");
-// });
 
 module.exports = router;

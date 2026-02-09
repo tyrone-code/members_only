@@ -19,4 +19,8 @@ async function getMessages() {
   return result.rows;
 }
 
-module.exports = { createMessage, getMessages };
+async function deleteMessageById(id) {
+  return pool.query("DELETE FROM messages WHERE id = $1", [id]);
+}
+
+module.exports = { createMessage, getMessages, deleteMessageById };

@@ -22,22 +22,11 @@ const User = {
 
   async findById(id) {
     const result = await pool.query(
-      "SELECT id, username, email FROM signed_up WHERE id = $1",
+      "SELECT id, username, email, is_admin FROM signed_up WHERE id = $1",
       [id],
     );
     return result.rows[0];
   },
-  // async findByLogin(login) {
-  //   const result = await pool.query(
-  //     `
-  //     SELECT id, username, email, password
-  //     FROM signed_up
-  //     WHERE email = $1 OR username = $1
-  //     `,
-  //     [login],
-  //   );
-  //   return result.rows[0]; // undefined if not found
-  // },
 };
 
 module.exports = User;

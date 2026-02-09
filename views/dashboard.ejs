@@ -1,32 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>Message Board</title>
 </head>
 
 <body>
     <div class="mb-wrapper">
         <div class="mb-card">
-            <h1 class="mb-title">Welcome <%= user.username %> 👋
+            <h1 class="mb-title">
+                Welcome <%= user.username %> 👋
             </h1>
 
+            <!-- Post Message Form -->
             <form action="/message" method="POST">
-                <div class="mb-form-group">
-                </div>
-
                 <div class="mb-form-group">
                     <label class="mb-label" for="message">Message</label>
                     <textarea class="mb-textarea" id="message" name="message" placeholder="Write your message..."
                         required></textarea>
                 </div>
 
-                <button class="mb-button" type="submit">Post Message</button>
+                <button class="mb-button" type="submit">
+                    Post Message
+                </button>
             </form>
 
             <h2 class="mb-subtitle">Messages</h2>
-
-            <!-- Example message -->
 
             <% if (!messages || messages.length===0) { %>
                 <p>No messages yet. Be the first to post! 👏</p>
@@ -38,18 +39,24 @@
                                     <div class="mb-message-date">
                                         <%= new Date(msg.created_at).toLocaleString() %>
                                     </div>
-
                             </div>
+
                             <div class="mb-message-text">
                                 <%= msg.content %>
                             </div>
+
+                            <% if (user?.is_admin) { %>
+                                <form action="/message/<%= msg.id %>/delete" method="POST" class="mb-delete-form">
+                                    <button type="submit" class="mb-delete-button">
+                                        Delete
+                                    </button>
+                                </form>
+                                <% } %>
                         </div>
                         <% }) %>
                             <% } %>
-
         </div>
     </div>
-
 </body>
 
 </html>

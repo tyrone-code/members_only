@@ -227,9 +227,10 @@ body {
 .mb-message {
   background-color: #f7f9fc;
   border-radius: 6px;
-  padding: 12px;
+  padding: 20px;
   margin-top: 10px;
   border-left: 4px solid #2575fc;
+  height: 7rem;
 }
 
 .mb-message-author {
@@ -259,4 +260,21 @@ body {
   font-size: 0.7rem;
   color: #666;
   margin-top: 2px;
+}
+
+/* Delete button inside messages */
+.mb-delete-button {
+  background-color: #ff5c5c; /* soft red for delete */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  float: right; /* places it on the right side of the message */
+  transition: background-color 0.2s ease;
+}
+
+.mb-delete-button:hover {
+  background-color: #e03e3e; /* slightly darker red on hover */
 }

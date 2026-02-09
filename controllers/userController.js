@@ -6,13 +6,6 @@ const passport = require("passport");
 const User = require("../models/user");
 const Message = require("../models/message");
 
-// Sample messages for the board
-let messages = [
-  { name: "Alice", message: "Hello everyone! This is my first message." },
-  { name: "Bob", message: "Hi Alice! Welcome to the message board." },
-  { name: "Charlie", message: "I love this simple Node.js board. 😄" },
-];
-
 // ---------- Render Pages ----------
 
 // Login page
@@ -50,6 +43,10 @@ exports.dashboard = async (req, res) => {
     console.error(err);
     res.status(500).send("Server error");
   }
+};
+exports.deleteMessage = async (req, res) => {
+  await Message.deleteMessageById(req.params.id);
+  res.redirect("/dashboard");
 };
 
 exports.postMessage = async (req, res) => {
